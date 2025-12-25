@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
-import IpLookupInput from '../IpLookupInput.vue'
 import { clearCache } from '@/composables/useFetch'
+import IpLookupInput from '../IpLookupInput.vue'
 
 // Mock the API
 global.fetch = vi.fn()
@@ -305,9 +305,7 @@ describe('IpLookupInput', () => {
 
   describe('status classes', () => {
     it('should apply loading class when loading', async () => {
-      ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation(
-        () => new Promise(() => {}),
-      )
+      ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation(() => new Promise(() => {}))
 
       const wrapper = createWrapper()
       const input = wrapper.find('input')
