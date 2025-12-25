@@ -41,14 +41,13 @@ describe('useFetch', () => {
       expect(error.value).toContain('HTTP error')
     })
 
-    it('should handle abort', async () => {
-      let abortSignal: AbortSignal | undefined
+    it('should handle abort and call AbortController.abort()', async () => {
+      const abortSpy = vi.spyOn(AbortController.prototype, 'abort')
 
       ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation(
         (_url: string, options?: { signal?: AbortSignal }) => {
-          abortSignal = options?.signal
-          return new Promise((resolve, reject) => {
-            abortSignal?.addEventListener('abort', () => {
+          return new Promise((_, reject) => {
+            options?.signal?.addEventListener('abort', () => {
               const error = new Error('Aborted')
               error.name = 'AbortError'
               reject(error)
@@ -65,6 +64,9 @@ describe('useFetch', () => {
       await fetchPromise
 
       expect(status.value).toBe('idle')
+      expect(abortSpy).toHaveBeenCalled()
+
+      abortSpy.mockRestore()
     })
   })
 

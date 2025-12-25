@@ -35,6 +35,7 @@ npm run lint
 
 ## improvements
 
+* request retry logic in case of error
 * virtualization in case we need to handle long lists of ip inputs
 * async pool (concurrent requests limit) - in case we have bulk upload/edit in future
 * race condition between 2 inputs with the same ip address - I did not handle that because it creates bug when we add two inputs, then delete one of them and got abortion for both
