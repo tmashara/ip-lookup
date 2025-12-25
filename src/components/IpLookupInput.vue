@@ -81,7 +81,7 @@ onMounted(() => {
 
 <template>
   <div class="ip-lookup-input">
-    <div class="row-label" aria-hidden="true">{{ index + 1 }}</div>
+    <div class="row-label" :aria-label="`Row ${index + 1}`">{{ index + 1 }}</div>
     <input
       ref="inputRef"
       v-model="ip"
@@ -286,5 +286,65 @@ onMounted(() => {
 
 .remove-btn:hover {
   color: #f44336;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .ip-lookup-input {
+    grid-template-columns: auto 1fr auto;
+    gap: 8px;
+  }
+
+  .row-label {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .ip-input {
+    padding: 12px 16px;
+    font-size: 16px;
+  }
+
+  .remove-btn {
+    padding: 8px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .content {
+    grid-column: 1 / -1;
+    margin-left: 48px;
+    font-size: 14px;
+  }
+
+  .error-message {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .ip-lookup-input {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .row-label {
+    display: none;
+  }
+
+  .content {
+    margin-left: 0;
+    grid-column: auto;
+  }
+
+  .result {
+    flex-wrap: wrap;
+  }
+
+  .time {
+    margin-left: 0;
+    min-width: auto;
+  }
 }
 </style>

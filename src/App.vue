@@ -134,4 +134,65 @@ function removeRow(index: number) {
 .rows-container {
   margin-top: 24px;
 }
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 12px;
+    align-items: flex-start;
+  }
+
+  .modal {
+    margin-top: 12px;
+  }
+
+  .modal-header {
+    padding: 20px 24px;
+  }
+
+  .modal-title {
+    font-size: 20px;
+  }
+
+  .modal-content {
+    padding: 24px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .add-button {
+    padding: 12px 24px;
+    font-size: 16px;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-container {
+    padding: 8px;
+  }
+
+  .modal {
+    border-radius: 8px;
+  }
+
+  .modal-header {
+    padding: 16px 20px;
+  }
+
+  .modal-title {
+    font-size: 18px;
+  }
+
+  .modal-content {
+    padding: 20px;
+  }
+
+  .add-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
 </style>
