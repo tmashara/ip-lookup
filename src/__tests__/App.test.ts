@@ -85,7 +85,7 @@ describe('App', () => {
 
       // Get the handleRemove prop from the second component (index 1)
       const secondInput = wrapper.findAllComponents(IpLookupInput)[1]
-      const handleRemove = secondInput.props('handleRemove') as (index: number) => void
+      const handleRemove = secondInput!.props('handleRemove') as (index: number) => void
       handleRemove(1)
 
       await wrapper.vm.$nextTick()
@@ -103,12 +103,12 @@ describe('App', () => {
       expect(ipInputs).toHaveLength(3)
 
       // Each component should have different index
-      expect(ipInputs[0].props('index')).toBe(0)
-      expect(ipInputs[1].props('index')).toBe(1)
-      expect(ipInputs[2].props('index')).toBe(2)
+      expect(ipInputs[0]!.props('index')).toBe(0)
+      expect(ipInputs[1]!.props('index')).toBe(1)
+      expect(ipInputs[2]!.props('index')).toBe(2)
 
       // Remove middle row (index 1)
-      const handleRemove = ipInputs[1].props('handleRemove') as (index: number) => void
+      const handleRemove = ipInputs[1]!.props('handleRemove') as (index: number) => void
       handleRemove(1)
 
       await wrapper.vm.$nextTick()
@@ -117,8 +117,8 @@ describe('App', () => {
       expect(updatedInputs).toHaveLength(2)
 
       // Indices should be updated
-      expect(updatedInputs[0].props('index')).toBe(0)
-      expect(updatedInputs[1].props('index')).toBe(1)
+      expect(updatedInputs[0]!.props('index')).toBe(0)
+      expect(updatedInputs[1]!.props('index')).toBe(1)
     })
 
     it('should allow removing down to one row', async () => {
@@ -129,7 +129,7 @@ describe('App', () => {
       expect(wrapper.findAllComponents(IpLookupInput)).toHaveLength(2)
 
       const ipInputs = wrapper.findAllComponents(IpLookupInput)
-      const handleRemove = ipInputs[1].props('handleRemove') as (index: number) => void
+      const handleRemove = ipInputs[1]!.props('handleRemove') as (index: number) => void
       handleRemove(1)
 
       await wrapper.vm.$nextTick()
@@ -147,9 +147,9 @@ describe('App', () => {
 
       const ipInputs = wrapper.findAllComponents(IpLookupInput)
 
-      expect(ipInputs[0].props('index')).toBe(0)
-      expect(ipInputs[1].props('index')).toBe(1)
-      expect(ipInputs[2].props('index')).toBe(2)
+      expect(ipInputs[0]!.props('index')).toBe(0)
+      expect(ipInputs[1]!.props('index')).toBe(1)
+      expect(ipInputs[2]!.props('index')).toBe(2)
     })
 
     it('should pass handleRemove function to each IPLookupInput', () => {
@@ -165,7 +165,7 @@ describe('App', () => {
     it('should focus first input on mount', () => {
       const wrapper = mount(App, { attachTo: document.body })
 
-      const firstInput = wrapper.findAllComponents(IpLookupInput)[0]
+      const firstInput = wrapper.findAllComponents(IpLookupInput)[0]!
       const inputElement = firstInput.find('input').element
 
       expect(document.activeElement).toBe(inputElement)
@@ -180,7 +180,7 @@ describe('App', () => {
       await wrapper.vm.$nextTick()
 
       const inputs = wrapper.findAllComponents(IpLookupInput)
-      const lastInput = inputs[inputs.length - 1]
+      const lastInput = inputs[inputs.length - 1]!
       const inputElement = lastInput.find('input').element
 
       expect(document.activeElement).toBe(inputElement)
@@ -196,14 +196,14 @@ describe('App', () => {
       await wrapper.vm.$nextTick()
 
       let inputs = wrapper.findAllComponents(IpLookupInput)
-      expect(document.activeElement).toBe(inputs[1].find('input').element)
+      expect(document.activeElement).toBe(inputs[1]!.find('input').element)
 
       // Add second row
       await wrapper.find('.add-button').trigger('click')
       await wrapper.vm.$nextTick()
 
       inputs = wrapper.findAllComponents(IpLookupInput)
-      expect(document.activeElement).toBe(inputs[2].find('input').element)
+      expect(document.activeElement).toBe(inputs[2]!.find('input').element)
 
       wrapper.unmount()
     })

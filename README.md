@@ -1,5 +1,14 @@
 # ip-lookup
 
+[![CI](https://github.com/tmashara/ip-lookup/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR-USERNAME/ip-lookup/actions/workflows/ci.yml)
+[![Deploy](https://github.com/tmashara/ip-lookup/actions/workflows/deploy.yml/badge.svg)](https://github.com/YOUR-USERNAME/ip-lookup/actions/workflows/deploy.yml)
+
+A Vue 3 application for looking up IP addresses and displaying their geolocation information with live timezone.
+
+## 🌐 Live Demo
+
+**[https://tmashara.github.io/ip-lookup/](https://tmashara.github.io/ip-lookup/)**
+
 ## Project Setup
 
 ```sh

@@ -15,7 +15,7 @@ export function useSynchronizedTime(timezone: Ref<string | undefined>) {
     }
 
     // start global timer only once
-    intervalId = setInterval(() => {
+    intervalId = window.setInterval(() => {
       time.value = Date.now()
     }, 1000)
   })
