@@ -160,4 +160,52 @@ describe('App', () => {
       expect(ipInput.props('handleRemove')).toBeTypeOf('function')
     })
   })
+
+  describe('focus management', () => {
+    it('should focus first input on mount', () => {
+      const wrapper = mount(App, { attachTo: document.body })
+
+      const firstInput = wrapper.findAllComponents(IpLookupInput)[0]
+      const inputElement = firstInput.find('input').element
+
+      expect(document.activeElement).toBe(inputElement)
+
+      wrapper.unmount()
+    })
+
+    it('should focus newly added input when add button is clicked', async () => {
+      const wrapper = mount(App, { attachTo: document.body })
+
+      await wrapper.find('.add-button').trigger('click')
+      await wrapper.vm.$nextTick()
+
+      const inputs = wrapper.findAllComponents(IpLookupInput)
+      const lastInput = inputs[inputs.length - 1]
+      const inputElement = lastInput.find('input').element
+
+      expect(document.activeElement).toBe(inputElement)
+
+      wrapper.unmount()
+    })
+
+    it('should maintain focus chain when adding multiple rows', async () => {
+      const wrapper = mount(App, { attachTo: document.body })
+
+      // Add first row
+      await wrapper.find('.add-button').trigger('click')
+      await wrapper.vm.$nextTick()
+
+      let inputs = wrapper.findAllComponents(IpLookupInput)
+      expect(document.activeElement).toBe(inputs[1].find('input').element)
+
+      // Add second row
+      await wrapper.find('.add-button').trigger('click')
+      await wrapper.vm.$nextTick()
+
+      inputs = wrapper.findAllComponents(IpLookupInput)
+      expect(document.activeElement).toBe(inputs[2].find('input').element)
+
+      wrapper.unmount()
+    })
+  })
 })

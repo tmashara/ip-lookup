@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { isValidIP } from '@/utils/isValidIP.ts'
 import type { IPLookupResponse, Status } from '@/types'
 import { useSynchronizedTime } from '@/composables/useSynchronizedTime.ts'
@@ -14,6 +14,7 @@ interface Props {
 const { handleRemove, index } = defineProps<Props>()
 
 const ip = ref('')
+const inputRef = ref<HTMLInputElement | null>(null)
 
 const {
   execute,
@@ -71,12 +72,18 @@ watch(ip, (newValue) => {
     validationError.value = ''
   }
 })
+
+// autofocus input when component mounts
+onMounted(() => {
+  inputRef.value?.focus()
+})
 </script>
 
 <template>
   <div class="ip-lookup-input">
     <div class="row-label" aria-hidden="true">{{ index + 1 }}</div>
     <input
+      ref="inputRef"
       v-model="ip"
       type="text"
       class="ip-input"
