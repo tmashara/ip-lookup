@@ -10,8 +10,6 @@ function addRow() {
 }
 
 function removeRow(index: number) {
-  console.log(index)
-
   rows.value.splice(index, 1)
 }
 </script>
@@ -26,7 +24,7 @@ function removeRow(index: number) {
       <div class="modal-content">
         <p class="subtitle">Enter one or more IP addresses and get their country</p>
 
-        <button class="add-button" @click="addRow">
+        <button class="add-button" @click="addRow" type="button" aria-label="Add new IP lookup row">
           <svg
             class="add-icon"
             width="16"
@@ -34,6 +32,7 @@ function removeRow(index: number) {
             viewBox="0 0 16 16"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
           >
             <path
               d="M8 1V15M1 8H15"

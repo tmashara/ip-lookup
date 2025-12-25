@@ -4,6 +4,7 @@ import type { Status } from '@/types'
 interface UseFetchOptions {
   cache?: boolean
   cacheTTL?: number // TTL in milliseconds
+  maxCacheSize?: number // Maximum number of entries in cache
 }
 
 interface CacheEntry<T> {
@@ -11,12 +12,19 @@ interface CacheEntry<T> {
   timestamp: number
 }
 
-// simple in-memory cache with TTL support
+// Maximum cache size (default)
+const DEFAULT_MAX_CACHE_SIZE = 100
+
+// simple in-memory cache with TTL and LRU eviction support
 const cache = new Map<string, CacheEntry<unknown>>()
 
 export function useFetch<T = unknown>(options: UseFetchOptions = {}) {
-  // default 5 minutes
-  const { cache: useCache = true, cacheTTL = 5 * 60 * 1000 } = options
+  // default 5 minutes, max 100 entries
+  const {
+    cache: useCache = true,
+    cacheTTL = 5 * 60 * 1000,
+    maxCacheSize = DEFAULT_MAX_CACHE_SIZE,
+  } = options
 
   const data = ref<T | null>(null)
   const error = ref<string | null>(null)
@@ -35,6 +43,10 @@ export function useFetch<T = unknown>(options: UseFetchOptions = {}) {
       const cacheEntry = cache.get(url) as CacheEntry<T>
 
       if (isCacheValid(cacheEntry)) {
+        // LRU: Move to end by deleting and re-inserting
+        cache.delete(url)
+        cache.set(url, cacheEntry)
+
         data.value = cacheEntry.data
         status.value = 'success'
 
@@ -64,6 +76,14 @@ export function useFetch<T = unknown>(options: UseFetchOptions = {}) {
 
       // Store in cache with timestamp
       if (useCache) {
+        // LRU eviction: Remove the oldest entry if cache is full
+        if (cache.size >= maxCacheSize) {
+          const firstKey = cache.keys().next().value
+          if (firstKey !== undefined) {
+            cache.delete(firstKey)
+          }
+        }
+
         cache.set(url, {
           data: result,
           timestamp: Date.now(),
@@ -96,4 +116,9 @@ export function useFetch<T = unknown>(options: UseFetchOptions = {}) {
     execute,
     abort,
   }
+}
+
+// Export for testing purposes
+export function clearCache() {
+  cache.clear()
 }

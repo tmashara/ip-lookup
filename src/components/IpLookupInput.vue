@@ -65,12 +65,17 @@ function onRemove() {
   handleRemove(index)
 }
 
-watch(timezone, console.log)
+// clear validation error when input is cleared
+watch(ip, (newValue) => {
+  if (!newValue.trim()) {
+    validationError.value = ''
+  }
+})
 </script>
 
 <template>
   <div class="ip-lookup-input">
-    <div class="row-label">{{ index + 1 }}</div>
+    <div class="row-label" aria-hidden="true">{{ index + 1 }}</div>
     <input
       v-model="ip"
       type="text"
@@ -81,28 +86,47 @@ watch(timezone, console.log)
         'ip-input--success': status === 'success',
       }"
       :disabled="status === 'loading'"
+      :aria-label="`IP address input ${index + 1}`"
+      :aria-describedby="status === 'error' ? `error-${index}` : undefined"
+      :aria-invalid="status === 'error'"
       placeholder="e.g., 8.8.8.8 or 2001:4860:4860::8888"
       @blur="handleBlur"
     />
 
     <div class="content">
-      <div v-if="status === 'loading'" class="loading-container">
-        <div class="loading-spinner"></div>
+      <div v-if="status === 'loading'" class="loading-container" role="status" aria-live="polite">
+        <div class="loading-spinner" aria-hidden="true"></div>
         Checking...
       </div>
-      <div v-if="status === 'idle'">Blur to lookup</div>
+      <div v-if="status === 'idle'" aria-live="polite">Blur to lookup</div>
 
-      <div v-else-if="status === 'success' && country" class="result">
-        <span v-if="flagEmoji" class="flag">{{ flagEmoji }}</span>
+      <div
+        v-else-if="status === 'success' && country"
+        class="result"
+        role="status"
+        aria-live="polite"
+      >
+        <span v-if="flagEmoji" class="flag" aria-hidden="true">{{ flagEmoji }}</span>
         {{ country }}
         <span class="time">{{ timezoneTime }}</span>
       </div>
 
-      <div v-else-if="status === 'error'" class="error-message" :title="error">
+      <div
+        v-else-if="status === 'error'"
+        :id="`error-${index}`"
+        class="error-message"
+        role="alert"
+        aria-live="assertive"
+      >
         {{ error }}
       </div>
 
-      <button class="remove-btn" @click="onRemove" title="Remove">
+      <button
+        class="remove-btn"
+        @click="onRemove"
+        :aria-label="`Remove IP lookup ${index + 1}`"
+        type="button"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -112,6 +136,7 @@ watch(timezone, console.log)
           stroke="currentColor"
           stroke-width="2"
           stroke-linecap="round"
+          aria-hidden="true"
         >
           <line x1="4" y1="4" x2="12" y2="12" />
           <line x1="12" y1="4" x2="4" y2="12" />

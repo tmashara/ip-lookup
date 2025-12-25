@@ -1,1 +1,1 @@
-export const API_URL = 'http://ipwho.is/'
+export const API_URL = 'https://ipwho.is/'
