@@ -97,6 +97,8 @@ This application uses the [https://ipwhois.io/](https://ipwhois.io/) API for IP 
 - E2E tests with Playwright/Cypress
 - Better error messages for network failures
 - API response validation with Zod or similar
+- Bulk upload (eg. csv with IPs)
+- Tests coverage
 
 ## License
 

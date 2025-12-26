@@ -44,6 +44,8 @@ function removeRow(index: number) {
           Add
         </button>
 
+        <div class="delimiter" />
+
         <div class="rows-container">
           <IPLookupInput
             v-for="(id, index) in rows"
@@ -58,6 +60,12 @@ function removeRow(index: number) {
 </template>
 
 <style scoped>
+.delimiter {
+  width: 100%;
+  height: 1px;
+  background-color: #e0e0e0;
+}
+
 .app-container {
   min-height: 100vh;
   display: flex;
